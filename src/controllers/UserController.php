@@ -13,17 +13,17 @@ use PDO;
  */
 class UserController
 {
-    private $connect;
+    private PDO $connect;
     private array $get;
     private array $post;
 
     /**
      * UserController constructor.
-     * @param $connect
-     * @param array $get
-     * @param array $post
+     * @param PDO $connect Database connection
+     * @param array $get GET parameters
+     * @param array $post POST parameters
      */
-    public function __construct($connect, array $get, array $post)
+    public function __construct(PDO $connect, array $get, array $post)
     {
         $this->connect = $connect;
         $this->get = $get;
@@ -77,6 +77,7 @@ class UserController
 
     /**
      * Process user registration
+     * @throws \Exception
      */
     public function Registration(): void
     {

@@ -5,22 +5,22 @@ namespace App\controllers;
 use App\models\Event;
 use App\models\Token;
 use App\models\User;
-use JetBrains\PhpStorm\NoReturn;
+use PDO;
 
 class EventsController
 {
-    private $connect;
+    private PDO $connect;
     private array $get;
     private array $post;
 
     /**
      * Constructor for EventsController
      *
-     * @param mixed $connect The database connection
+     * @param PDO $connect The database connection
      * @param array $get The GET parameters
      * @param array $post The POST parameters
      */
-    public function __construct($connect, array $get, array $post)
+    public function __construct(PDO $connect, array $get, array $post)
     {
         $this->connect = $connect;
         $this->get = $get;
@@ -41,7 +41,7 @@ class EventsController
      *
      * @param mixed $eventId The ID of the event
      */
-    public function eventPage($eventId): void
+    public function eventPage(mixed $eventId): void
     {
         if (isset($_SESSION['user_id'])) {
             $userID = $_SESSION['user_id'];
@@ -87,14 +87,13 @@ class EventsController
      */
     public function update(): void
     {
-        $id = $_POST['event_id'];
         $name = $_POST['name'];
         $date = $_POST['date'];
         $price = $_POST['price'];
         $number_seats = $_POST['number_seats'];
 
         $event = new Event($name, $price, $number_seats, $date, $this->connect);
-        $event->updateEvent($id);
+        $event->updateEvent();
 
         header('Location: /admin');
     }
@@ -120,7 +119,7 @@ class EventsController
         include(__DIR__ . '/../view/editEvent.php');
     }
 
-    public function adminUsersPage()
+    public function adminUsersPage(): void
     {
         {
             if (!isset($_SESSION['user_id'])) {
@@ -135,7 +134,7 @@ class EventsController
         }
     }
 
-    public function adminUserInfoPage($id)
+    public function adminUserInfoPage($id): void
     {
         {
             {
