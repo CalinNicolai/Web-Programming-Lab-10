@@ -5,6 +5,7 @@ namespace App\controllers;
 use App\models\Event;
 use App\models\Token;
 use App\models\User;
+use JetBrains\PhpStorm\NoReturn;
 
 class EventsController
 {
@@ -56,6 +57,9 @@ class EventsController
      */
     public function adminPage(): void
     {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /');
+        }
         $userID = $_SESSION['user_id'];
         if (!Token::checkToken($this->connect, $userID)) {
             UserController::logoutStatic($this->connect);
@@ -114,5 +118,37 @@ class EventsController
     {
         $event = Event::getEventById($this->connect, $id);
         include(__DIR__ . '/../view/editEvent.php');
+    }
+
+    public function adminUsersPage()
+    {
+        {
+            if (!isset($_SESSION['user_id'])) {
+                header('Location: /');
+            }
+            $userID = $_SESSION['user_id'];
+            if (!Token::checkToken($this->connect, $userID)) {
+                UserController::logoutStatic($this->connect);
+            }
+            $admin = new adminController($this->connect, $this->get, $this->post);
+            $admin->adminUsersPage();
+        }
+    }
+
+    public function adminUserInfoPage($id)
+    {
+        {
+            {
+                if (!isset($_SESSION['user_id'])) {
+                    header('Location: /');
+                }
+                $userID = $_SESSION['user_id'];
+                if (!Token::checkToken($this->connect, $userID)) {
+                    UserController::logoutStatic($this->connect);
+                }
+                $admin = new adminController($this->connect, $this->get, $this->post);
+                $admin->adminUserInfoPage($id);
+            }
+        }
     }
 }

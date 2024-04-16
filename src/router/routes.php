@@ -55,6 +55,18 @@ Router::addRoute('GET', '/edit_event/{id}', function ($id) use ($conn) {
     $events->editEventPage($id["id"]);
 });
 
+Router::addRoute('GET', '/admin/users', function () use ($conn) {
+    // Handle request to edit an event
+    $events = new EventsController($conn, $_GET, $_POST);
+    $events->adminUsersPage();
+});
+
+Router::addRoute('GET', '/admin/user/{id}', function ($id) use ($conn) {
+    // Handle request to edit an event
+    $events = new EventsController($conn, $_GET, $_POST);
+    $events->adminUserInfoPage($id["id"]);
+});
+
 // Define routes for POST requests
 Router::addRoute('POST', '/login', function () use ($conn) {
     // Handle login request

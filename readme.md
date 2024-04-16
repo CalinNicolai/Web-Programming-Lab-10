@@ -13,8 +13,10 @@ git clone https://github.com/CalinNicolai/Web-Programming-Lab-8
 4. Поднимите базу данных например MariaDB. Для этого выполните команды
 
 ```bash
-cd /MariaDB/
-docker-composer up -d
+cd .\MariaDB\
+```
+```bash
+docker-compose up -d
 ```
 
 5. Перейдите по ссылке [localhost:8080](localhost:8080)

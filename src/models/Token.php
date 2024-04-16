@@ -160,7 +160,6 @@ class Token
 
         // Get the token from the database for the user
         $dbToken = self::findByUserId($connect, $userId)['0']['token'];
-
         // Compare the tokens
         return $cookieToken === $dbToken;
     }

@@ -87,6 +87,50 @@ class User
     }
 
     /**
+     * Find a user by their ID
+     *
+     * @param int $id The user's ID
+     * @param PDO $connection The database connection object
+     *
+     * @return array|null An array representing the user if found, null otherwise
+     */
+    public static function findById(int $id, PDO $connection): ?array
+    {
+        $query = "SELECT * FROM users WHERE id = :id";
+        $stmt = $connection->prepare($query);
+        $stmt->execute(['id' => $id]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user === false) {
+            return null; // User with the specified ID not found
+        }
+
+        return $user;
+    }
+
+    /**
+     * Retrieve all users from the database
+     *
+     * @param PDO $connection The database connection object
+     *
+     * @return array|false An array of all users, or false if no users found
+     */
+    public static function getAll(PDO $connection): array|false
+    {
+        $query = "SELECT * FROM users";
+        $stmt = $connection->prepare($query);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$users) {
+            return false; // No users found
+        }
+
+        return $users;
+    }
+
+
+    /**
      * Check if the user already exists in the database
      *
      * @return bool True if the user exists, false otherwise
